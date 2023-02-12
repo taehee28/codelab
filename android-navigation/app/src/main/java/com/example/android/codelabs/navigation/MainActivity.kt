@@ -24,9 +24,12 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 /**
@@ -45,17 +48,18 @@ class MainActivity : AppCompatActivity() {
         val host: NavHostFragment = supportFragmentManager
                 .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment? ?: return
 
-        // Set up Action Bar
+        // Action Bar 설정하기
         val navController = host.navController
 
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        // old setup
+        /*appBarConfiguration = AppBarConfiguration(navController.graph)*/
 
-        // TODO STEP 9.5 - Create an AppBarConfiguration with the correct top-level destinations
+        // TODO STEP 9.5 - top-level destination들을 지정해서 AppBarConfiguration 생성하기
         // You should also remove the old appBarConfiguration setup above
-//        val drawerLayout : DrawerLayout? = findViewById(R.id.drawer_layout)
-//        appBarConfiguration = AppBarConfiguration(
-//                setOf(R.id.home_dest, R.id.deeplink_dest),
-//                drawerLayout)
+        val drawerLayout : DrawerLayout? = findViewById(R.id.drawer_layout)
+        appBarConfiguration = AppBarConfiguration(
+                setOf(R.id.home_dest, R.id.deeplink_dest),
+                drawerLayout)
         // TODO END STEP 9.5
 
         setupActionBar(navController, appBarConfiguration)
@@ -78,36 +82,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        // TODO STEP 9.3 - Use NavigationUI to set up Bottom Nav
-//        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-//        bottomNav?.setupWithNavController(navController)
+        // TODO STEP 9.3 - NavigationUI 사용해서 BottomNav 설정하기
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        bottomNav?.setupWithNavController(navController)
         // TODO END STEP 9.3
     }
 
     private fun setupNavigationMenu(navController: NavController) {
         // TODO STEP 9.4 - Use NavigationUI to set up a Navigation View
-//        // In split screen mode, you can drag this view out from the left
-//        // This does NOT modify the actionbar
-//        val sideNavView = findViewById<NavigationView>(R.id.nav_view)
-//        sideNavView?.setupWithNavController(navController)
+        // 화면 분할 모드일 때 왼쪽에서 꺼낼 수 있는 메뉴
+        // actionbar에 영향을 주지 않는다
+        val sideNavView = findViewById<NavigationView>(R.id.nav_view)
+        sideNavView?.setupWithNavController(navController)
         // TODO END STEP 9.4
     }
 
     private fun setupActionBar(navController: NavController,
                                appBarConfig : AppBarConfiguration) {
         // TODO STEP 9.6 - Have NavigationUI handle what your ActionBar displays
-//        // This allows NavigationUI to decide what label to show in the action bar
-//        // By using appBarConfig, it will also determine whether to
-//        // show the up arrow or drawer menu icon
-//        setupActionBarWithNavController(navController, appBarConfig)
+        // 이것은 NavigationUI로 하여금 action bar에 어떤 라벨을 표시할지 결정할 수 있게 해준다.
+        // appBarConfig를 사용함으로써 drawer 메뉴 아이콘을 보여줄지 아니면 뒤로가기 아이콘을 보여줄 지 결정할 수 있게도 해준다.
+        setupActionBarWithNavController(navController, appBarConfig)
         // TODO END STEP 9.6
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val retValue = super.onCreateOptionsMenu(menu)
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        // The NavigationView already has these same navigation items, so we only add
-        // navigation items to the menu here if there isn't a NavigationView
+        // NavigationView는 이미 navigation item들을 가지고 있기 때문에,
+        // NavigationView가 없을 때에만 navigation item들을 메뉴에 추가하면 된다.
         if (navigationView == null) {
             menuInflater.inflate(R.menu.overflow_menu, menu)
             return true
@@ -116,22 +119,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
-        // TODO STEP 9.2 - Have Navigation UI Handle the item selection - make sure to delete
-        //  the old return statement above
-//        // Have the NavigationUI look for an action or destination matching the menu
-//        // item id and navigate there if found.
-//        // Otherwise, bubble up to the parent.
-//        return item.onNavDestinationSelected(findNavController(R.id.my_nav_host_fragment))
-//                || super.onOptionsItemSelected(item)
+//        return super.onOptionsItemSelected(item)
+        // TODO STEP 9.2 - Navigation UI에서 item selection 핸들링하기
+        // NavigationUI는 menu item의 id와 매칭되는 action 혹은 destination의 id를 찾고, 발견하면 navigate한다.
+        // 만약 menu item이 navigate를 위한 item이 아니라면 부모 함수로 넘겨서 핸들링한다.
+        return item.onNavDestinationSelected(findNavController(R.id.my_nav_host_fragment))
+                || super.onOptionsItemSelected(item)
         // TODO END STEP 9.2
     }
 
     // TODO STEP 9.7 - Have NavigationUI handle up behavior in the ActionBar
-//    override fun onSupportNavigateUp(): Boolean {
-//        // Allows NavigationUI to support proper up navigation or the drawer layout
-//        // drawer menu, depending on the situation
-//        return findNavController(R.id.my_nav_host_fragment).navigateUp(appBarConfiguration)
-//    }
+    override fun onSupportNavigateUp(): Boolean {
+        // Allows NavigationUI to support proper up navigation or the drawer layout
+        // drawer menu, depending on the situation
+        return findNavController(R.id.my_nav_host_fragment).navigateUp(appBarConfiguration)
+    }
     // TODO END STEP 9.7
 }

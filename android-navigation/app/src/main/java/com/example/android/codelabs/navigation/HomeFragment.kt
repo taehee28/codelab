@@ -40,6 +40,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /*
+        * destination(프래그먼트)을 지정해서 원하는 화면으로 navigate할 수 있지만,
+        * destination을 연결한 action을 지정해서도 navigate할 수 있다.
+        *
+        * 각 프래그먼트의 action의 id는 중복할 수 있는데,
+        * 같은 action id여도 navigate를 실행하는 프래그먼트에 따라서 동작이 바뀌게 된다.
+        * -> context에 따른 동작
+        * */
+
         //TODO STEP 5 - OnClickListener 설정하기. Navigation.createNavigateOnClickListener()을 사용할 수도 있다.
         /*val button = view.findViewById<Button>(R.id.navigate_destination_button)
         button?.setOnClickListener {
@@ -75,6 +84,17 @@ class HomeFragment : Fragment() {
                 Navigation.createNavigateOnClickListener(R.id.next_action, null)
         )
         //TODO END STEP 7.2
+
+        // args를 안전하게 넘기는 방법: Directions 클래스 사용하기
+        // action을 가지는 모든 destination에 대해 Directions 클래스가 생성되며,
+        // 해당 destination이 가지는 action들에 대한 메서드가 포함되어 있다. 
+        /*
+        view.findViewById<Button>(R.id.navigate_action_button)?.setOnClickListener {
+            val flowStepNumberArgs = 1
+            val action = HomeFragmentDirections.nextAction(flowStepNumberArgs)
+            findNavController().navigate(action)
+        }
+        */
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
