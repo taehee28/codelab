@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/home_dest">
+
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="com.example.android.codelabs.navigation.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment">
+
+        <!-- TODO STEP 7.1 - transition을 포함하는 action 추가하기 -->
+        <action
+            android:id="@+id/next_action"
+            app:destination="@+id/flow_step_one_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <!-- TODO END STEP 7.1 -->
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/flow_step_one_dest"
+        android:name="com.example.android.codelabs.navigation.FlowStepFragment"
+        tools:layout="@layout/flow_step_one_fragment">
+        <argument
+            android:name="flowStepNumber"
+            app:argType="integer"
+            android:defaultValue="1"/>
+
+        <action
+            android:id="@+id/next_action"
+            app:destination="@+id/flow_step_two_dest">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/flow_step_two_dest"
+        android:name="com.example.android.codelabs.navigation.FlowStepFragment"
+        tools:layout="@layout/flow_step_two_fragment">
+
+        <argument
+            android:name="flowStepNumber"
+            app:argType="integer"
+            android:defaultValue="2"/>
+
+        <!-- step one에서 해당 fragment로 이동하는 action과 id가 같음 -->
+        <!-- 같은 id를 가지더라도 상황에 따라 다르게 navigate할 수 있다. -->
+        <action
+            android:id="@+id/next_action"
+            app:popUpTo="@id/home_dest">
+        </action>
+    </fragment>
+
+
+
+</navigation>

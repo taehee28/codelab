@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/deeplink_navigation"
+    app:startDestination="@id/deeplink_dest">
+    <fragment
+        android:id="@+id/deeplink_dest"
+        android:name="com.example.android.codelabs.navigation.DeepLinkFragment"
+        android:label="@string/deeplink"
+        tools:layout="@layout/deeplink_fragment">
+
+        <argument
+            android:name="myarg"
+            android:defaultValue="Android!"/>
+        <!-- TODO STEP 11.1 - Add a deep link to www.example.com/{myarg}/ -->
+        <!-- web link를 받는 destination에 해당 요소 추가 -->
+        <deepLink app:uri="www.example.com/{myarg}" />
+
+        <!-- TODO END STEP 11.1 -->
+    </fragment>
+
+</navigation>
