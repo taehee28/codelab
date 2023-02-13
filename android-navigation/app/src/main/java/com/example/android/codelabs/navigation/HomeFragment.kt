@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import androidx.navigation.ui.onNavDestinationSelected
 
 /**
  * Fragment used to show how to navigate to another destination
@@ -87,7 +88,7 @@ class HomeFragment : Fragment() {
 
         // args를 안전하게 넘기는 방법: Directions 클래스 사용하기
         // action을 가지는 모든 destination에 대해 Directions 클래스가 생성되며,
-        // 해당 destination이 가지는 action들에 대한 메서드가 포함되어 있다. 
+        // 해당 destination이 가지는 action들에 대한 메서드가 포함되어 있다.
         /*
         view.findViewById<Button>(R.id.navigate_action_button)?.setOnClickListener {
             val flowStepNumberArgs = 1
@@ -99,5 +100,9 @@ class HomeFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return item.onNavDestinationSelected(findNavController()) || super.onOptionsItemSelected(item)
     }
 }
