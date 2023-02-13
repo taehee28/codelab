@@ -84,8 +84,8 @@
             android:name="myarg"
             android:defaultValue="Android!"/>
         <!-- TODO STEP 11.1 - Add a deep link to www.example.com/{myarg}/ -->
-
-        <!--<deepLink app:uri="www.example.com/{myarg}" />-->
+        <!-- web link를 받는 destination에 해당 요소 추가 -->
+        <deepLink app:uri="www.example.com/{myarg}" />
 
         <!-- TODO END STEP 11.1 -->
     </fragment>
